@@ -1,4 +1,5 @@
 import {finishApp, createAnApp} from './app';
+import "./modules/db/connection";
 
 const PORT = 8080;
 
