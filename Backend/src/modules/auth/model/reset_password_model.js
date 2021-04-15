@@ -12,4 +12,4 @@ const resetPasswordSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.Model('reset_password', resetPasswordSchema);
+export default mongoose.model('reset_password', resetPasswordSchema);

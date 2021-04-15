@@ -1,6 +1,6 @@
 import assert from 'assert';
 import md5 from 'md5';
-import { Mongoose } from 'mongoose';
+import { mongoose } from 'mongoose';
 import { nanoid } from 'nanoid';
 import authModel from '../model';
 import createError from 'http-errors-lite';
@@ -12,7 +12,7 @@ authService.registerUser = async (data) => {
     const {email, password} = data;
     const encryptedPassword = md5(password);
 
-    const doesEmailExist = authModel.user.findOne({ email });
+    const doesEmailExist = await authModel.user.findOne({ email });
 
     assert(
         doesEmailExist === null,
@@ -29,7 +29,7 @@ authService.loginUser = async (data) => {
     
     assert(
         user != null, 
-        createError(StatusCodes.BAD_REQUEST, 'Login with Invalid Email')
+        createError(StatusCodes.BAD_REQUEST, 'Invalid Email')
     );
 
     assert(
@@ -46,14 +46,17 @@ authService.resetPasswordRequest = async (email) => {
 
 authService.resetPassword = async ({token, newPassword}) => {
     const encryptedPassword = md5(newPassword);
-    const data = authModel.reset_password.findOne({token});
+    const data = await authModel.reset_password.findOne({token});
     const {email} = data;
-    await authModel.user.updateOne({email}, {password : encryptedPassword});
+    await authModel.user.findOneAndUpdate({email}, {password : encryptedPassword});
     await authModel.reset_password.deleteOne({token});
 };
 
-authService.changePassword = async ({oldPassword, newPassword, email}) => {
-    const user = authModel.user.findOne({email});
+authService.changePassword = async ({
+    old_password: oldPassword, 
+    new_password: newPassword, 
+    email}) => {
+    const user = await authModel.user.findOne({email});
     assert(
         md5(oldPassword) === user.password,
         createError(StatusCodes.UNAUTHORIZED, 'Please enter the correct old password')

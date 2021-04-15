@@ -37,8 +37,8 @@ router.get(
 router.put(
     '/reset-password',
     httpHandler(async (req, res) => {
-        const {token, new_password} = req.body;
-        await authService.resetPassword({token, new_password});
+        const {token, newPassword} = req.body;
+        await authService.resetPassword({token, newPassword});
         res.send({message : 'password changed successfully'});
     })
 );
@@ -46,8 +46,8 @@ router.put(
 router.post(
     '/change-password', 
     httpHandler(async (req, res) => {
-        const {email, oldPassword, newPassword} = req.body;
-        await authService.changePassword({email, oldPassword, newPassword});
+        const {old_password, new_password, email} = req.body;
+        await authService.changePassword({old_password, new_password, email});
         res.send({message : 'password changed successfully'});
     })
 );
