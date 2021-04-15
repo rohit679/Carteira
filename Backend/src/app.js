@@ -30,6 +30,7 @@ export const errorHandler = (err, req, res, _next) => {
 };
 
 export const finishApp = (app) => {
+    
     app.use(notFoundHandler);
     app.use(errorHandler);
 };
