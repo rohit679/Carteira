@@ -1,9 +1,12 @@
 import {finishApp, createAnApp} from './app';
 import "./modules/db/connection";
+import authModule from './modules/auth';
 
 const PORT = 8080;
 
 const app = createAnApp();
+
+authModule.init(app);
 
 finishApp(app);
 

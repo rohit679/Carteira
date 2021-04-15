@@ -61,3 +61,5 @@ authService.changePassword = async ({oldPassword, newPassword, email}) => {
     const encryptedPassword = md5(newPassword);
     await authModel.user.findOneAndUpdate({email},{password : encryptedPassword});
 };
+
+export default authService;
