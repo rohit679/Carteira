@@ -4,6 +4,7 @@ import authModule from './modules/auth';
 import skillModule from './modules/skills';
 import experienceModule from './modules/experience';
 import educationModule from './modules/education';
+import projectModule from './modules/project';
 
 const PORT = 8080;
 
@@ -16,6 +17,8 @@ skillModule.init(app);
 experienceModule.init(app);
 
 educationModule.init(app);
+
+projectModule.init(app);
 
 finishApp(app);
 
