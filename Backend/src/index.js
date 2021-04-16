@@ -3,6 +3,7 @@ import "./modules/db/connection";
 import authModule from './modules/auth';
 import skillModule from './modules/skills';
 import experienceModule from './modules/experience';
+import educationModule from './modules/education';
 
 const PORT = 8080;
 
@@ -13,6 +14,8 @@ authModule.init(app);
 skillModule.init(app);
 
 experienceModule.init(app);
+
+educationModule.init(app);
 
 finishApp(app);
 
