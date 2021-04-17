@@ -5,10 +5,18 @@ import experienceServices from '../service';
 const router = Router();
 
 router.get(
-    '/get-experience/:id',
+    '/get-all-experiences',
+    httpHandler(async (req, res) => {
+        const details = await experienceServices.getAllExperiences();
+        res.send(details);
+    })
+);
+
+router.get(
+    '/get-an-experience/:id',
     httpHandler(async (req, res) => {
         const id = req.params.id;
-        const detail = await experienceServices.getExperience(id);
+        const detail = await experienceServices.getAnExperience(id);
         res.send(detail);
     })
 );

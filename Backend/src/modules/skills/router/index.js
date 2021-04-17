@@ -5,10 +5,18 @@ import {httpHandler} from '../../common/http-handler';
 const router = Router();
 
 router.get(
-    '/get-skill/:skill_id',
+    '/get-all-skills',
+    httpHandler(async (req, res) => {
+        const skills = await skillServices.getAllSkills();
+        res.send(skills);
+    })
+);
+
+router.get(
+    '/get-a-skill/:skill_id',
     httpHandler(async (req, res) => {
         const skill_id = req.params.skill_id;
-        const skill = await skillServices.getSkill(skill_id);
+        const skill = await skillServices.getASkill(skill_id);
         res.send(skill);
     })
 );

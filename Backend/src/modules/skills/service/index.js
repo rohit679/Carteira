@@ -2,7 +2,9 @@ import skillModel from '../model/index';
 
 const skillServices = {}
 
-skillServices.getSkill = async (id) => await skillModel.findById(id);
+skillServices.getAllSkills = async () => await skillModel.find({});
+
+skillServices.getASkill = async (id) => await skillModel.findById(id);
 
 skillServices.setSkill = async ({skill_name, skill_percent}) => await skillModel.create({skill_name, skill_percent});
 
