@@ -6,6 +6,8 @@ import experienceModule from './modules/experience';
 import educationModule from './modules/education';
 import projectModule from './modules/project';
 import linkModule from './modules/links';
+import personalInfo from './modules/personal';
+import personalInfoModule from './modules/personal';
 
 const PORT = 8080;
 
@@ -22,6 +24,8 @@ educationModule.init(app);
 projectModule.init(app);
 
 linkModule.init(app);
+
+personalInfoModule.init(app);
 
 finishApp(app);
 
