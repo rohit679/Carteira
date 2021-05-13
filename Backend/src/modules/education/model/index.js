@@ -22,7 +22,6 @@ const educationSchema = new mongoose.Schema({
     },
     grade : {
         type : String,
-        required : true
     },
     description : {
         type : Array

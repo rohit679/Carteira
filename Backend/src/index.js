@@ -6,8 +6,7 @@ import experienceModule from './modules/experience';
 import educationModule from './modules/education';
 import projectModule from './modules/project';
 import linkModule from './modules/links';
-import personalInfo from './modules/personal';
-import personalInfoModule from './modules/personal';
+import personalInfoModule from './modules/personal-info';
 
 const PORT = 8080;
 
