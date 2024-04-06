@@ -1,30 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const experienceSchema = new mongoose.Schema({
-    job_title : {
-        type : String,
-        required : true
-    },
-    job_type : {
-        type : String,
-    },
-    company_name : {
-        type : String,
-        required : true
-    },
-    location : {
-        type : String,
-        required : true
-    },
-    joining_date : {
-        type : String,
-    },
-    ending_date : {
-        type : String,
-    },
-    description : {
-        type : Array,
-    }
+  company: {
+    type: String,
+    required: true,
+  },
+  designation: {
+    type: String,
+    required: true,
+  },
+  tenure: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: Array,
+    required: true,
+    default: []
+  }
 });
 
-export default mongoose.model('experiences', experienceSchema);
+export default mongoose.model("experiences", experienceSchema);
