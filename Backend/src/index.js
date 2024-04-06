@@ -4,7 +4,7 @@ import { getSecret } from "./configuration.js";
 import { connectMongo } from "./utils/connect-db.js";
 // import authModule from "./modules/auth";
 // import skillModule from "./modules/skills";
-// import experienceModule from "./modules/experience";
+import experienceModule from "./modules/experience";
 // import educationModule from "./modules/education";
 // import projectModule from "./modules/project";
 // import linkModule from "./modules/links";
@@ -24,7 +24,7 @@ import { connectMongo } from "./utils/connect-db.js";
 
 //   authModule.init(app);
 //   skillModule.init(app);
-//   experienceModule.init(app);
+  experienceModule.init(app);
 //   educationModule.init(app);
 //   projectModule.init(app);
 //   linkModule.init(app);

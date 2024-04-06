@@ -5,7 +5,7 @@ import experienceServices from "../service";
 const router = Router();
 
 router.get(
-  "/get-all-experiences",
+  "/",
   httpHandler(async (req, res) => {
     const details = await experienceServices.getAllExperiences();
     res.send(details);
@@ -13,7 +13,7 @@ router.get(
 );
 
 router.get(
-  "/get-an-experience/:id",
+  "/id/:id",
   httpHandler(async (req, res) => {
     const id = req.params.id;
     const detail = await experienceServices.getAnExperience(id);
@@ -22,7 +22,7 @@ router.get(
 );
 
 router.post(
-  "/set-experience",
+  "/add",
   httpHandler(async (req, res) => {
     const data = req.body;
     await experienceServices.setExperience(data);
@@ -33,7 +33,7 @@ router.post(
 );
 
 router.put(
-  "/update-experience",
+  "/id/:id",
   httpHandler(async (req, res) => {
     const { id, data } = req.body;
     await experienceServices.updateExperience({ id, data });
@@ -44,7 +44,7 @@ router.put(
 );
 
 router.delete(
-  "/delete-experience/:id",
+  "/id/:id",
   httpHandler(async (req, res) => {
     const id = req.params.id;
     await experienceServices.deleteExperience(id);
