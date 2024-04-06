@@ -1,25 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
-    project_name : {
-        type : String,
-        required : true
-    },
-    start_date : {
-        type : String,
-    },
-    end_date : {
-        type : String
-    },
-    project_member : {
-        type : Array
-    },
-    project_url : {
-        type : String
-    },
-    description : {
-        type : Array
-    }
+  title: {
+    type: String,
+    required: true,
+  },
+  tenure: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ["personal", "company"]
+  },
+  project_url: {
+    type: String,
+  },
+  description: {
+    type: Array,
+    required: true,
+    default: []
+  },
 });
 
-export default mongoose.model('project', projectSchema);
+export default mongoose.model("project", projectSchema);
