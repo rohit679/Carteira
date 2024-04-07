@@ -1,94 +1,116 @@
-import authService from '../service';
-import {httpHandler} from '../../../utils/http-handler.js';
-import {Router} from 'express';
+import authService from "../service";
+import { httpHandler } from "../../../utils/http-handler.js";
+import { Router } from "express";
+import { verifyJWT } from "../../../middleware/checkAuth.js";
 
-const router = Router();
+const userRouter = Router();
 
-router.post(
-    '/register', httpHandler(async (req, res) => {
-        const details = req.body;
-        await authService.registerUser(details);
-        res.send({
-            message : 'user registered successfully'
-        });
-    })
+userRouter.post(
+  "/register",
+  httpHandler(async (req, res) => {
+    const details = req.body;
+    const user = await authService.registerUser(details);
+    res.send({
+      data: user,
+      message: "user registered successfully",
+    });
+  })
 );
 
-router.post(
-    '/login',
+userRouter.post(
+  "/login",
+  httpHandler(async (req, res) => {
+    const { username, password } = req.body;
+    const data = await authService.loginUser({ username, password });
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    res
+      .status(200)
+      .cookie("accessToken", data.accessToken, options)
+      .cookie("refreshToken", data.refreshToken, options)
+      .send({
+        error: false,
+        data: data.data,
+        message: "User Signed in successfully",
+        token: data.accessToken,
+      });
+  })
+);
+
+userRouter.post(
+  "/logout",
+  verifyJWT,
+  httpHandler(async (req, res) => {
+    await authService.logoutUser(req.user.id);
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .send({
+        error: false,
+        data: [],
+        message: "User Signed out successfully",
+      });
+  })
+);
+
+userRouter.post(
+    '/refresh-token',
+    verifyJWT,
     httpHandler(async (req, res) => {
-        const details = req.body;
-        await authService.loginUser(details);
-        res.send({
-            message : 'user successfully logged In'
-        });
+      const { body, cookies } = req;
+      const token = await authService.refreshAccessToken({ body, cookies });
+      const options = {
+        httpOnly: true,
+        secure: true
+      };
+  
+      res
+      .status(200)
+      .cookie("accessToken", token.accessToken, options)
+      .cookie("refreshToken", token.newRefreshToken, options)
+      .send({
+        error: false,
+        data: [],
+        message: "Acsess token refreshed",
+      });
     })
-);
-
-router.get(
-    '/reset-password-request',
+  );
+  
+  userRouter.post(
+    '/change-password',
+    verifyJWT,
     httpHandler(async (req, res) => {
-        const {email} = req.body;
-        const token = await authService.resetPasswordRequest(email);
-        res.send({token});
+      const { old_password, new_password } = req.body;
+      await authService.changeCurrentPassword({ id: req.user.id, old_password, new_password });
+  
+      res.send({
+        error: false,
+        data: [],
+        message: "Password changed successfully",
+      });
     })
-);
-
-router.put(
-    '/reset-password',
+  );
+  
+  userRouter.get(
+    '/current-user',
+    verifyJWT,
     httpHandler(async (req, res) => {
-        const {token, newPassword} = req.body;
-        await authService.resetPassword({token, newPassword});
-        res.send({message : 'password changed successfully'});
+      res.send({
+        error: false,
+        data: req.user,
+        message: "User fetched successfully",
+      });
     })
-);
+  );
 
-router.post(
-    '/change-password', 
-    httpHandler(async (req, res) => {
-        const {old_password, new_password, email} = req.body;
-        await authService.changePassword({old_password, new_password, email});
-        res.send({message : 'password changed successfully'});
-    })
-);
-
-export default router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default userRouter;

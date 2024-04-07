@@ -2,7 +2,7 @@ import { config } from "dotenv";
 import { finishApp, createAnApp } from "./app";
 import { getSecret } from "./configuration.js";
 import { connectMongo } from "./utils/connect-db.js";
-// import authModule from "./modules/auth";
+import authModule from "./modules/auth";
 import skillModule from "./modules/skills";
 import experienceModule from "./modules/experience";
 import educationModule from "./modules/education";
@@ -21,7 +21,7 @@ import publicationModule from "./modules/publication";
     res.send("App is healthy 💚");
   });
 
-  //   authModule.init(app);
+  authModule.init(app);
   skillModule.init(app);
   experienceModule.init(app);
   educationModule.init(app);
