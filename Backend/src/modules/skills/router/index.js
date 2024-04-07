@@ -7,7 +7,8 @@ const router = Router();
 router.get(
   "/",
   httpHandler(async (req, res) => {
-    const skills = await skillServices.getAllSkills();
+    const data = req.body;
+    const skills = await skillServices.getAllSkills(data);
     res.send(skills);
   })
 );
@@ -25,7 +26,7 @@ router.post(
   "/add",
   httpHandler(async (req, res) => {
     const data = req.body;
-    await skillServices.setSkill(data);
+    await skillServices.addSkill(data);
     res.send({
       message: "skill created successfully !",
     });
@@ -36,7 +37,7 @@ router.put(
   "/id/:id",
   httpHandler(async (req, res) => {
     const id = req.params.id;
-    const { data } = req.body;
+    const data = req.body;
     await skillServices.updateSkill({ id, data });
     res.send({
       message: "skill name updated successfully !",

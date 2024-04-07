@@ -13,15 +13,15 @@ const skillSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ["technology", "tool"],
-    default: "technology"
+    default: "technology",
   },
   url: {
     type: String,
   },
   is_active: {
     type: Boolean,
-    default: false
-  }
+    default: true,
+  },
 });
 
 export default mongoose.model("skills", skillSchema);

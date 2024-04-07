@@ -2,11 +2,12 @@ import skillModel from "../model/index";
 
 const skillServices = {};
 
-skillServices.getAllSkills = async () => await skillModel.find({});
+skillServices.getAllSkills = async (query) =>
+  await skillModel.find({ ...query });
 
 skillServices.getASkill = async (id) => await skillModel.findById(id);
 
-skillServices.setSkill = async ({ title, rating, url }) =>
+skillServices.addSkill = async ({ title, rating, url }) =>
   await skillModel.create({ title, rating, url: url ? url : "" });
 
 skillServices.updateSkill = async ({ id, data }) =>
