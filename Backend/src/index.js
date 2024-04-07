@@ -7,7 +7,7 @@ import { connectMongo } from "./utils/connect-db.js";
 import experienceModule from "./modules/experience";
 // import educationModule from "./modules/education";
 import projectModule from "./modules/project";
-// import linkModule from "./modules/links";
+import publicationModule from "./modules/publication";
 // import personalInfoModule from "./modules/personal-info";
 
 (async () => {
@@ -27,7 +27,7 @@ import projectModule from "./modules/project";
   experienceModule.init(app);
 //   educationModule.init(app);
   projectModule.init(app);
-//   linkModule.init(app);
+  publicationModule.init(app);
 //   personalInfoModule.init(app);
 
   finishApp(app);
