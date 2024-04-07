@@ -1,6 +1,6 @@
 import { Router } from "express";
 import educationServices from "../service";
-import { httpHandler } from "../../common/http-handler";
+import { httpHandler } from "../../../utils/http-handler.js";
 
 const router = Router();
 

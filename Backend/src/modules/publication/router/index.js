@@ -1,5 +1,5 @@
 import publicationServices from "../service";
-import { httpHandler } from "../../common/http-handler";
+import { httpHandler } from "../../../utils/http-handler.js";
 import { Router } from "express";
 
 const router = Router();

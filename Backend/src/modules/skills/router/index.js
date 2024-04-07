@@ -1,6 +1,6 @@
 import skillServices from "../service";
 import { Router } from "express";
-import { httpHandler } from "../../common/http-handler";
+import { httpHandler } from "../../../utils/http-handler.js";
 
 const router = Router();
 

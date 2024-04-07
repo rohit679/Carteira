@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { httpHandler } from "../../common/http-handler";
+import { httpHandler } from "../../../utils/http-handler.js";
 import experienceServices from "../service";
 
 const router = Router();
