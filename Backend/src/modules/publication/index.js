@@ -8,7 +8,7 @@ const publicationModule = {
   init: (app) => {
     app.use(router);
     console.log("Publication module Loaded");
-  },
+  -},
 };
 
 export default publicationModule;
