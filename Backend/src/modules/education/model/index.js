@@ -1,31 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const educationSchema = new mongoose.Schema({
-    institute_name : {
-        type : String,
-        required : true
-    },
-    degree_name : {
-        type : String,
-        required : true
-    },
-    field : {
-        type : String,
-    },
-    start_year : {
-        type : String,
-        required : true
-    },
-    end_year : {
-        type : String,
-        required : true
-    },
-    grade : {
-        type : String,
-    },
-    description : {
-        type : Array
-    }
+  title: {
+    type: String,
+    required: true,
+  },
+  degree: {
+    type: String,
+    required: true,
+  },
+  tenure: {
+    type: String,
+    required: true,
+  },
+  grade: {
+    type: String,
+  },
+  description: {
+    type: Array,
+    default: [],
+  },
+  is_active: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-export default mongoose.model('education', educationSchema);
+export default mongoose.model("education", educationSchema);
