@@ -8,7 +8,6 @@ import experienceModule from "./modules/experience";
 import educationModule from "./modules/education";
 import projectModule from "./modules/project";
 import publicationModule from "./modules/publication";
-// import personalInfoModule from "./modules/personal-info";
 
 (async () => {
   config({ path: ".env" });
@@ -28,7 +27,6 @@ import publicationModule from "./modules/publication";
   educationModule.init(app);
   projectModule.init(app);
   publicationModule.init(app);
-  //   personalInfoModule.init(app);
 
   finishApp(app);
 
