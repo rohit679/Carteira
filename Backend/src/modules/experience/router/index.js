@@ -7,7 +7,8 @@ const router = Router();
 router.get(
   "/",
   httpHandler(async (req, res) => {
-    const details = await experienceServices.getAllExperiences();
+    const data = req.body;
+    const details = await experienceServices.getAllExperiences(data);
     res.send(details);
   })
 );
@@ -25,7 +26,7 @@ router.post(
   "/add",
   httpHandler(async (req, res) => {
     const data = req.body;
-    await experienceServices.setExperience(data);
+    await experienceServices.addExperience(data);
     res.send({
       message: "Experience successfully set !",
     });
@@ -35,7 +36,8 @@ router.post(
 router.put(
   "/id/:id",
   httpHandler(async (req, res) => {
-    const { id, data } = req.body;
+    const id = req.params.id;
+    const data = req.body;
     await experienceServices.updateExperience({ id, data });
     res.send({
       message: "Experience successfully updated !",

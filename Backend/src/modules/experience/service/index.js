@@ -2,14 +2,14 @@ import experienceModel from "../model";
 
 const experienceServices = {};
 
-experienceServices.getAllExperiences = async () =>
-  await experienceModel.find({});
+experienceServices.getAllExperiences = async (query) =>
+  await experienceModel.find({ ...query });
 
 experienceServices.getAnExperience = async (id) =>
   await experienceModel.findById(id);
 
-experienceServices.setExperience = async (data) =>
-  await experienceModel.create(data);
+experienceServices.addExperience = async ({ company, designation, tenure, description }) =>
+  await experienceModel.create({ company, designation, tenure, description });
 
 experienceServices.updateExperience = async ({ id, data }) =>
   await experienceModel.findByIdAndUpdate(id, data);

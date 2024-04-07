@@ -22,13 +22,13 @@ import publicationModule from "./modules/publication";
     res.send("App is healthy 💚");
   });
 
-//   authModule.init(app);
+  //   authModule.init(app);
   skillModule.init(app);
   experienceModule.init(app);
-//   educationModule.init(app);
+  //   educationModule.init(app);
   projectModule.init(app);
   publicationModule.init(app);
-//   personalInfoModule.init(app);
+  //   personalInfoModule.init(app);
 
   finishApp(app);
 

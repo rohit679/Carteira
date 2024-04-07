@@ -17,6 +17,10 @@ const experienceSchema = new mongoose.Schema({
     type: Array,
     required: true,
     default: []
+  },
+  is_active: {
+    type: Boolean,
+    default: true
   }
 });
 
