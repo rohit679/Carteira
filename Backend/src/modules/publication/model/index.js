@@ -19,8 +19,12 @@ const publicationSchema = new mongoose.Schema({
   description: {
     type: Array,
     required: true,
-    default: []
+    default: [],
   },
+  is_active: {
+    type: Boolean,
+    default: true
+  }
 });
 
 export default mongoose.model("publication", publicationSchema);

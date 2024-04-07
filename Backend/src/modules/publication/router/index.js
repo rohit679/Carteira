@@ -7,7 +7,10 @@ const router = Router();
 router.get(
   "/",
   httpHandler(async (req, res) => {
-    const details = await publicationServices.getAllPublications();
+    const data = req.body;
+    const details = await publicationServices.getAllPublications(
+      data ? data : {}
+    );
     res.send(details);
   })
 );
@@ -25,7 +28,7 @@ router.post(
   "/add",
   httpHandler(async (req, res) => {
     const data = req.body;
-    await publicationServices.setPublication(data);
+    await publicationServices.addPublication(data);
     res.send({
       message: "publication successfully added !",
     });
@@ -35,7 +38,8 @@ router.post(
 router.put(
   "/id/:id",
   httpHandler(async (req, res) => {
-    const { id, data } = req.body;
+    const id = req.params.id;
+    const data = req.body;
     await publicationServices.updatePublication({ id, data });
     res.send({
       message: "publication updated successfully !",
