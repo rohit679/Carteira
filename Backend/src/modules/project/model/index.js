@@ -12,15 +12,18 @@ const projectSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ["personal", "company"]
+    enum: ["personal", "company"],
   },
   project_url: {
     type: String,
   },
   description: {
     type: Array,
-    required: true,
-    default: []
+    default: [],
+  },
+  is_active: {
+    type: Boolean,
+    default: true,
   },
 });
 

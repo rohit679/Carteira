@@ -7,7 +7,8 @@ const router = Router();
 router.get(
   "/",
   httpHandler(async (req, res) => {
-    const details = await projectServices.getAllProjects();
+    const data = req.body;
+    const details = await projectServices.getAllProjects(data);
     res.send(details);
   })
 );
@@ -25,7 +26,7 @@ router.post(
   "/add",
   httpHandler(async (req, res) => {
     const data = req.body;
-    await projectServices.setProject(data);
+    await projectServices.addProject(data);
     res.send({
       message: "project successfully added !",
     });
@@ -35,7 +36,9 @@ router.post(
 router.put(
   "/id/:id",
   httpHandler(async (req, res) => {
-    const { id, data } = req.body;
+    const id = req.params.id;
+    const data = req.body;
+    console.log("@@@@: ", id, data);
     await projectServices.updateProject({ id, data });
     res.send({
       message: "project updated successfully !",

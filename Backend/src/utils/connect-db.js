@@ -6,7 +6,8 @@ export const connectMongo = async () => {
     const mongoUrl = getSecret().mongoUrl;
     await mongoose.connect(mongoUrl, {
       dbName: 'carteira',
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: true
     });
     console.log("Database connected successfully ✨");
   } catch (err) {
