@@ -1,17 +1,18 @@
-import skillModel from '../model/index';
+import skillModel from "../model/index";
 
-const skillServices = {}
+const skillServices = {};
 
 skillServices.getAllSkills = async () => await skillModel.find({});
 
 skillServices.getASkill = async (id) => await skillModel.findById(id);
 
-skillServices.setSkill = async ({skill_name, skill_percent}) => await skillModel.create({skill_name, skill_percent});
+skillServices.setSkill = async ({ title, rating, url }) =>
+  await skillModel.create({ title, rating, url: url ? url : "" });
 
-skillServices.updateSkillName = async ({skill_id, skill_name}) => await skillModel.findByIdAndUpdate(skill_id, {skill_name : skill_name});
+skillServices.updateSkill = async ({ id, data }) =>
+  await skillModel.findByIdAndUpdate(id, data);
 
-skillServices.updateSkillPercent = async ({skill_id, skill_percent}) => await skillModel.findByIdAndUpdate(skill_id, {skill_percent : skill_percent});
-
-skillServices.deleteSkill = async (id) => await skillModel.findByIdAndDelete(id);
+skillServices.deleteSkill = async (id) =>
+  await skillModel.findByIdAndDelete(id);
 
 export default skillServices;

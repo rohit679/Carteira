@@ -1,15 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const skillSchema = new mongoose.Schema({
-    skill_name : {
-        type : String,
-        required : true,
-        unique : true
-    },
-    skill_percent : {
-        type : String,
-        required : true
-    }
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  rating: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ["technology", "tool"],
+    default: "technology"
+  },
+  url: {
+    type: String,
+  },
+  is_active: {
+    type: Boolean,
+    default: false
+  }
 });
 
-export default mongoose.model('skills', skillSchema);
+export default mongoose.model("skills", skillSchema);
