@@ -4,8 +4,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import { motion } from "framer-motion";
 import { CodeBuddy } from "../../organisms/atoms/images";
-// import Particles from "../../organisms/molecules/particles";
-import ParticlesComponent from '../../organisms/atoms/particles';
+import ParticlesComponent from "../../organisms/atoms/particles";
 import Container from "../../organisms/atoms/container";
 import Type from "../../organisms/atoms/Type";
 import Text from "../../organisms/atoms/Text";
@@ -19,7 +18,7 @@ const Home = ({ setPath }) => {
   return (
     <div className="home-section flex flex-col" id="home">
       <Container classname="lg:my-20 xl:my-40 z-10">
-      <ParticlesComponent id="particles" />
+        <ParticlesComponent id="particles" />
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-8 w-full">
           <div className="flex flex-1 text-white">
             <div className="flex flex-col lg:gap-3 md:py-10 w-full px-4">
@@ -59,9 +58,7 @@ const Home = ({ setPath }) => {
             </div>
             <div className="flex flex-col gap-4 mt-8 lg:mx-16">
               <Text size="sm">
-                A <span className="text-baseCol">MERN Stack Developer 🧑‍💻
-
-</span>{" "}
+                A <span className="text-baseCol">MERN Stack Developer 🧑‍💻</span>{" "}
                 <span className="font-bold">@AdGlobal360</span> with over{" "}
                 <span className="text-baseCol font-bold">3 years</span> of
                 experience. Had been part of multiple{" "}
@@ -81,8 +78,8 @@ const Home = ({ setPath }) => {
                 my favorite 😇 technology, specially in case of REST APIS
               </Text>
               <Text size="sm">
-                A <span className="font-bold">Table Tenis</span> 🏓 Enthusiast Obsessed with the idea of learning &
-                exploring.
+                A <span className="font-bold">Table Tenis</span> 🏓 Enthusiast
+                Obsessed with the idea of learning & exploring.
               </Text>
             </div>
           </div>
@@ -117,6 +114,9 @@ const Home = ({ setPath }) => {
               />
             </div>
           </div>
+        </div>
+        <div className="text-white flex justify-center py-4 text-[16px] lg:text-[20px]">
+          Made with ❤️ by Rohit Prasad
         </div>
       </Container>
     </div>
