@@ -12,13 +12,10 @@ const authService = {};
 
 authService.registerUser = async ({ email, password }) => {
   const user = await userModel.findOne({ email });
-  assert(
-    !user,
-    createError(StatusCodes.BAD_REQUEST, "Email already exists")
-  );
+  assert(!user, createError(StatusCodes.BAD_REQUEST, "Email already exists"));
   assert(
     MailChecker.isValid(email),
-    createError(StatusCodes.BAD_REQUEST, "Invalid Email provided")  
+    createError(StatusCodes.BAD_REQUEST, "Invalid Email provided")
   );
   const createdUser = await userModel.create({ email, password });
   return createdUser;
@@ -88,18 +85,24 @@ authService.forgotPassword = async ({ email }) => {
   assert(user, createError(StatusCodes.BAD_REQUEST, "Email doesn't exists"));
 
   const token = user.reset_password_token;
-  if(!token) {
+  if (!token) {
     user.reset_password_token = crypto.randomBytes(32).toString("hex");
     await user.save({ validateBeforeSave: false });
   }
 
-  const link = `${secret.baseUrl}/password-reset/${user._id}/${user.reset_password_token}`;
+  const link = `${secret.baseUrl}/${user._id}/${user.reset_password_token}`;
   await sendEmail(user.email, "Password reset", link);
 };
 
 authService.resetPassword = async ({ user_id, token, password }) => {
-  const user = await userModel.findOne({ _id: user_id, reset_password_token: token });
-  assert(user, createError(StatusCodes.BAD_REQUEST, "Invalid details"));
+  const user = await userModel.findOne({
+    _id: user_id,
+    reset_password_token: token,
+  });
+  assert(
+    user,
+    createError(StatusCodes.BAD_REQUEST, "Invalid details")
+  );
 
   user.password = password;
   await user.save();
@@ -108,58 +111,7 @@ authService.resetPassword = async ({ user_id, token, password }) => {
     { $unset: { reset_password_token: 1 } },
     { new: true }
   );
-}
-
-// authService.getUserById = async ({ id, loggedInUser }) => {
-//   const user = await userBusiness.validateUserId({ id, loggedInUser });
-//   return user;
-// };
-
-// authService.getFilteredUsers = async ({
-//   query,
-//   search,
-//   page_number,
-//   page_size,
-//   sort,
-//   loggedInUser,
-// }) => {
-//   const roleBasedFilter = { role_rank: { $gt: loggedInUser.role_rank } };
-//   const searchFilterObj = await userBusiness.getSearchFilterObj(search);
-//   let skip = (page_number - 1) * page_size;
-//   const users = await userModel
-//     .find(
-//       { ...query, ...searchFilterObj, ...roleBasedFilter },
-//       { __v: 0, password: 0, refresh_token: 0 }
-//     )
-//     .skip(skip)
-//     .limit(page_size)
-//     .sort(sort);
-//   return users;
-// };
-
-// authService.updateUser = async ({ loggedInUser, id, payload }) => {
-//   const user = await userBusiness.validateUserId({ id, loggedInUser });
-//   userBusiness.validateUpdateUserPayload(payload);
-
-//   const finalPayload = userBusiness.updateUserFinalPayload(
-//     loggedInUser,
-//     payload,
-//     user
-//   );
-//   await userModel.findOneAndUpdate({ _id: id }, finalPayload);
-
-//   const updatedUser = await userModel.findById(id, {
-//     __v: 0,
-//     password: 0,
-//     refresh_token: 0,
-//   });
-//   return updatedUser;
-// };
-
-// authService.deleteUsers = async ({ id, loggedInUser }) => {
-//   await userBusiness.validateUserId({ id, loggedInUser });
-//   await userModel.deleteOne(id);
-// };
+};
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -179,7 +131,8 @@ const generateAccessAndRefereshTokens = async (userId) => {
 };
 
 const refreshAccessToken = async ({ body, cookies }) => {
-  const incomingRefreshToken = cookies && cookies.refreshToken || body && body.refresh_token;
+  const incomingRefreshToken =
+    (cookies && cookies.refreshToken) || (body && body.refresh_token);
   if (!incomingRefreshToken) {
     throw createError(StatusCodes.UNAUTHORIZED, "Unauthorized request");
   }
@@ -193,7 +146,7 @@ const refreshAccessToken = async ({ body, cookies }) => {
   const user = await userModel.findById(decodedToken && decodedToken.id, {
     __v: 0,
     password: 0,
-    reset_password_token: 0
+    reset_password_token: 0,
   });
   if (!user) {
     throw createError(StatusCodes.UNAUTHORIZED, "Invalid refresh token");
