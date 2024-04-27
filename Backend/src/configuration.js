@@ -6,4 +6,9 @@ export const getSecret = () => ({
   accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
   refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
   refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+  baseUrl: process.env.BASE_URL,
+  host: process.env.HOST,
+  service: process.env.SERVICE,
+  user: process.env.USER_NAME,
+  pass: process.env.PASS
 });

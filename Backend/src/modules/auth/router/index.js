@@ -20,8 +20,8 @@ userRouter.post(
 userRouter.post(
   "/login",
   httpHandler(async (req, res) => {
-    const { username, password } = req.body;
-    const data = await authService.loginUser({ username, password });
+    const { email, password } = req.body;
+    const data = await authService.loginUser({ email, password });
 
     const options = {
       httpOnly: true,
@@ -97,6 +97,35 @@ userRouter.post(
         error: false,
         data: [],
         message: "Password changed successfully",
+      });
+    })
+  );
+
+  userRouter.post(
+    '/forgot-password',
+    httpHandler(async (req, res) => {
+      const { email } = req.body;
+      await authService.forgotPassword({ email });
+  
+      res.send({
+        error: false,
+        data: [],
+        message: "Reset Password link sent",
+      });
+    })
+  );
+
+  userRouter.post(
+    '/reset-password/:user_id/:token',
+    httpHandler(async (req, res) => {
+      const { password } = req.body;
+      const { user_id, token } = req.params;
+      await authService.resetPassword({ user_id, token, password });
+  
+      res.send({
+        error: false,
+        data: [],
+        message: "Password updated successfully",
       });
     })
   );

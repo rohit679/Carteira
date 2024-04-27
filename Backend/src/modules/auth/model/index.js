@@ -1,20 +1,14 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { getSecret } from "../../../configuration.js";
 
 const userSchema = new mongoose.Schema(
   {
-    role: {
+    email: {
       type: String,
-      enum: ["admin", "subadmin"],
-      default: "subadmin",
-      trim: true,
-    },
-    username: {
-      type: String,
-      unique: [true, "username must be unique"],
-      required: [true, "username is required"],
+      unique: [true, "email must be unique"],
+      required: [true, "email is required"],
       lowercase: true,
       trim: true,
     },
@@ -25,6 +19,9 @@ const userSchema = new mongoose.Schema(
     refresh_token: {
       type: String,
     },
+    reset_password_token: {
+      type: String,
+    }
   },
   { strict: false, timestamps: true }
 );
@@ -45,8 +42,7 @@ userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       id: this._id,
-      username: this.username,
-      role: this.role,
+      email: this.email,
     },
     secret.accessTokenSecret,
     {

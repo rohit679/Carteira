@@ -20,14 +20,16 @@ export const verifyJWT = httpHandler(async (req, res, next) => {
     const user = await userModel.findById(decodedToken && decodedToken.id, {
       __v: 0,
       password: 0,
-      refresh_token: 0,
     });
 
-    if (!user) {
+    if (!user || !user.refresh_token) {
       throw createError(StatusCodes.UNAUTHORIZED, "Invalid access token");
     }
 
-    req.user = user;
+    req.user = {
+      "_id": user._id,
+      "email": user.email,
+    };
     next();
   } catch (err) {
     throw createError(

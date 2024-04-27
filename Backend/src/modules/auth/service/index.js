@@ -1,35 +1,32 @@
 import createError from "http-errors-lite";
 import userModel from "../model/index.js";
 import { StatusCodes } from "http-status-codes";
+import MailChecker from "mailchecker";
 import assert from "assert";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import { getSecret } from "../../../configuration.js";
+import sendEmail from "../../../utils/send-mail.js";
 
 const authService = {};
 
-authService.registerUser = async ({ username, password }) => {
-  const user = await userModel.findOne({ username });
+authService.registerUser = async ({ email, password }) => {
+  const user = await userModel.findOne({ email });
   assert(
     !user,
-    createError(StatusCodes.BAD_REQUEST, "Username already exists")
+    createError(StatusCodes.BAD_REQUEST, "Email already exists")
   );
-  const createdUser = await userModel.create({ username, password });
-
-  if (!createdUser) {
-    throw createError(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      "Error while registering the user"
-    );
-  }
-
-  const result = await userModel.findOne(
-    { _id: createdUser._id },
-    { password: 0, refresh_token: 0, __v: 0 }
+  assert(
+    MailChecker.isValid(email),
+    createError(StatusCodes.BAD_REQUEST, "Invalid Email provided")  
   );
-  return result;
+  const createdUser = await userModel.create({ email, password });
+  return createdUser;
 };
 
-authService.loginUser = async ({ username, password }) => {
-  const user = await userModel.findOne({ username });
-  assert(user, createError(StatusCodes.BAD_REQUEST, "Username not found"));
+authService.loginUser = async ({ email, password }) => {
+  const user = await userModel.findOne({ email });
+  assert(user, createError(StatusCodes.BAD_REQUEST, "Email doesn't exists"));
   const isPasswordValid = await user.isPasswordCorrect(password);
   assert(
     isPasswordValid,
@@ -42,6 +39,7 @@ authService.loginUser = async ({ username, password }) => {
   const loggedInUser = await userModel.findById(user._id, {
     password: 0,
     refresh_token: 0,
+    reset_password_token: 0,
     __v: 0,
   });
   return { data: loggedInUser, accessToken, refreshToken };
@@ -83,6 +81,34 @@ authService.changeCurrentPassword = async ({
   user.password = new_password;
   await user.save({ validateBeforeSave: false });
 };
+
+authService.forgotPassword = async ({ email }) => {
+  const secret = getSecret();
+  const user = await userModel.findOne({ email });
+  assert(user, createError(StatusCodes.BAD_REQUEST, "Email doesn't exists"));
+
+  const token = user.reset_password_token;
+  if(!token) {
+    user.reset_password_token = crypto.randomBytes(32).toString("hex");
+    await user.save({ validateBeforeSave: false });
+  }
+
+  const link = `${secret.baseUrl}/password-reset/${user._id}/${user.reset_password_token}`;
+  await sendEmail(user.email, "Password reset", link);
+};
+
+authService.resetPassword = async ({ user_id, token, password }) => {
+  const user = await userModel.findOne({ _id: user_id, reset_password_token: token });
+  assert(user, createError(StatusCodes.BAD_REQUEST, "Invalid details"));
+
+  user.password = password;
+  await user.save();
+  await userModel.findByIdAndUpdate(
+    user_id,
+    { $unset: { reset_password_token: 1 } },
+    { new: true }
+  );
+}
 
 // authService.getUserById = async ({ id, loggedInUser }) => {
 //   const user = await userBusiness.validateUserId({ id, loggedInUser });
@@ -153,7 +179,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
 };
 
 const refreshAccessToken = async ({ body, cookies }) => {
-  const incomingRefreshToken = cookies.refreshToken || body.refresh_token;
+  const incomingRefreshToken = cookies && cookies.refreshToken || body && body.refresh_token;
   if (!incomingRefreshToken) {
     throw createError(StatusCodes.UNAUTHORIZED, "Unauthorized request");
   }
@@ -167,12 +193,13 @@ const refreshAccessToken = async ({ body, cookies }) => {
   const user = await userModel.findById(decodedToken && decodedToken.id, {
     __v: 0,
     password: 0,
+    reset_password_token: 0
   });
   if (!user) {
     throw createError(StatusCodes.UNAUTHORIZED, "Invalid refresh token");
   }
 
-  if (incomingRefreshToken !== user && user.refresh_token) {
+  if (incomingRefreshToken !== user.refresh_token) {
     throw createError(
       StatusCodes.UNAUTHORIZED,
       "Refresh token is expired or used"
