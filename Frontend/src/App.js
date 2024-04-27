@@ -13,6 +13,8 @@ import Experience from "./components/pages/experience";
 import Articles from "./components/pages/articles";
 import PreLoader from "./components/organisms/utils/preloader";
 import NavBar from "./components/organisms/molecules/navbar";
+import Dashboard from "./components/pages/dashboard";
+import Footer from "./components/organisms/atoms/footer";
 import "./App.css";
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
         className="text-white bg-[#0c1a22] w-full"
         id={isLoading ? "no-scroll" : "scroll"}
       >
-        <NavBar activePath={activePath} />
+        {!activePath.includes("dashboard") && <NavBar activePath={activePath} />}
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home setPath={setActivePath} />} />
@@ -51,11 +53,12 @@ function App() {
             path="/articles"
             element={<Articles setPath={setActivePath} />}
           />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div>
-      <div className="bg-[#0c1a22] text-white flex justify-center py-4 text-[16px] lg:text-[20px]">
-        Made with ❤️ by Rohit Prasad
       </div>
     </Router>
   );
