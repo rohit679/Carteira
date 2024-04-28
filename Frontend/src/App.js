@@ -51,7 +51,7 @@ function App() {
           />
           <Route
             path="/articles"
-            element={<Articles setPath={setActivePath} />}
+            element={<Dashboard setPath={setActivePath} />}
           />
           <Route
             path="/dashboard"
