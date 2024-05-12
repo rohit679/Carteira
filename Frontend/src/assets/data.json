@@ -1,0 +1,68 @@
+{
+  "home": {
+    "intro": [
+      "Hi There!",
+      "I'm",
+      "Rohit Prasad"
+    ],
+    "type": [
+      "MERN Stack Developer @AdGlobal360",
+      "3+ Years of Industry Experience",
+      "Open Source Contributor",
+      "3 Star LeetCode"
+    ],
+    "card": {
+      "heading": [
+        "LET ME",
+        "INTRODUCE",
+        "MYSELF"
+      ],
+      "details": [
+        [
+          "A",
+          "MERN Stack Developer 🧑‍💻",
+          "@AdGlobal360",
+          "with over",
+          "3 years",
+          "of experience. Had been part of multiple",
+          "Product",
+          "development &",
+          "Government",
+          "based projects."
+        ],
+        [
+          "Love to do",
+          "Competitive Coding",
+          "❤️. Primarily, practice at",
+          "LeetCode",
+          "with having",
+          "3",
+          "🌟 profile"
+        ],
+        [
+          "NodeJs",
+          "is one of my favorite 😇 technology, specially in case of REST APIS"
+        ],
+        [
+          "A",
+          "Table Tenis",
+          "🏓 Enthusiast Obsessed with the idea of learning & exploring."
+        ]
+      ]
+    },
+    "footer": {
+      "heading": "FIND ME ON",
+      "subheading": [
+        "Feel free to",
+        "connect"
+      ],
+      "links": [
+        "https://github.com/rohit679",
+        "https://leetcode.com/rohit221/",
+        "https://www.linkedin.com/in/rohpr/",
+        "mailto:prasad.rohit078@gmail.com"
+      ],
+      "author": "Made with ❤️ by Rohit Prasad"
+    }
+  }
+}
